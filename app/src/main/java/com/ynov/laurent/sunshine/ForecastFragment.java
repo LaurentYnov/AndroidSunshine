@@ -28,7 +28,7 @@ public class ForecastFragment extends Fragment implements WeatherFetcherListener
     ArrayAdapter<String> mForecastAdapter;
 
     public ForecastFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -44,29 +44,16 @@ public class ForecastFragment extends Fragment implements WeatherFetcherListener
 
        View rootView = inflater.inflate(R.layout.forecast_fragment, container, false);
 
-        String[] data = {"Mon 6/23 - Sunny - 31/17",
-                "Tue 6/24 - Foggy - 21/8",
-                "Wed 6/25 - Cloudy - 22/17",
-                "Thurs 6/26 - Rainy - 18/11",
-                "Fri 6/27 - Foggy - 21/10",
-                "Sat 6/28 - TRAPPED IN WEATHERSTATION - 23/18",
-                "Tue 6/24 - Foggy - 21/8",
-                "Wed 6/25 - Cloudy - 22/17",
-                "Thurs 6/26 - Rainy - 18/11",
-                "Fri 6/27 - Foggy - 21/10",
-                "Sat 6/28 - TRAPPED IN WEATHERSTATION - 23/18",
-                "Sun 6/29 - Sunny - 20/7"};
-
-        List<String> weekForecast = new ArrayList<String>(Arrays.asList(data));
         mForecastAdapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
-                weekForecast);
+                new ArrayList<String>());
 
 
         ListView listView = (ListView) rootView.findViewById(R.id.list_view_forecast);
         listView.setAdapter(mForecastAdapter);
 
+        downloadDatas();
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -90,10 +77,14 @@ public class ForecastFragment extends Fragment implements WeatherFetcherListener
         int itemId = item.getItemId();
 
         if (itemId == R.id.action_refresh) {
-            WeatherFetcher fetcher = new WeatherFetcher(this);
-            fetcher.execute("Bordeaux");
+            downloadDatas();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void downloadDatas () {
+        new WeatherFetcher(this).execute("Bordeaux");
     }
 }
