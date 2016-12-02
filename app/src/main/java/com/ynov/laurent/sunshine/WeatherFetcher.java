@@ -1,5 +1,6 @@
 package com.ynov.laurent.sunshine;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -13,11 +14,12 @@ import java.net.URL;
  * Created by laurent on 10/11/2016.
  */
 
-public class WeatherFetcher {
+public class WeatherFetcher extends AsyncTask<Void,Void,Void> {
 
+    private final String LOG_TAG = String.valueOf(this.getClass());
 
-
-    public String fetchData () {
+    @Override
+    protected Void doInBackground(Void... voids) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -60,11 +62,9 @@ public class WeatherFetcher {
                 return null;
             }
             forecastJsonStr = buffer.toString();
-            return  forecastJsonStr;
-
-
+            Log.e(LOG_TAG,forecastJsonStr);
         } catch (IOException e) {
-            Log.e("PlaceholderFragment", "Error ", e);
+            Log.e(LOG_TAG, "Error ", e);
             // If the code didn't successfully get the weather data, there's no point in attemping
             // to parse it.
             return null;
@@ -76,10 +76,11 @@ public class WeatherFetcher {
                 try {
                     reader.close();
                 } catch (final IOException e) {
-                    Log.e("PlaceholderFragment", "Error closing stream", e);
+                    Log.e(LOG_TAG, "Error closing stream", e);
                 }
             }
         }
 
+        return null;
     }
 }

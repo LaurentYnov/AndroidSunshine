@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (itemId == R.id.action_refresh) {
             WeatherFetcher fetcher = new WeatherFetcher();
-            Log.e("DATA FECTHED",fetcher.fetchData());
+            fetcher.execute();
         }
 
         return super.onOptionsItemSelected(item);
