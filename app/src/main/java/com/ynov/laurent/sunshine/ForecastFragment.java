@@ -10,8 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ynov.laurent.sunshine.R;
 
@@ -22,7 +24,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ForecastFragment extends Fragment implements WeatherFetcherListener {
+public class ForecastFragment extends Fragment implements WeatherFetcherListener, AdapterView.OnItemClickListener {
 
 
     ArrayAdapter<String> mForecastAdapter;
@@ -52,6 +54,7 @@ public class ForecastFragment extends Fragment implements WeatherFetcherListener
 
         ListView listView = (ListView) rootView.findViewById(R.id.list_view_forecast);
         listView.setAdapter(mForecastAdapter);
+        listView.setOnItemClickListener(this);
 
         downloadDatas();
         // Inflate the layout for this fragment
@@ -86,5 +89,11 @@ public class ForecastFragment extends Fragment implements WeatherFetcherListener
 
     private void downloadDatas () {
         new WeatherFetcher(this).execute("Bordeaux");
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        String index = Integer.toString(position + 1);
+        Toast.makeText(getActivity(),"You touched item number " + index, Toast.LENGTH_SHORT).show();
     }
 }
