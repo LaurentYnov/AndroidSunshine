@@ -3,6 +3,8 @@ package com.ynov.laurent.sunshine;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,12 +16,19 @@ import java.net.URL;
  * Created by laurent on 10/11/2016.
  */
 
-public class WeatherFetcher extends AsyncTask<Void,Void,Void> {
+public class WeatherFetcher extends AsyncTask<Void,Void,String[]> {
 
     private final String LOG_TAG = String.valueOf(this.getClass());
 
+    WeatherFetcherListener mListner;
+
+    public WeatherFetcher(WeatherFetcherListener listener) {
+        this.mListner= listener;
+    }
+
+
     @Override
-    protected Void doInBackground(Void... voids) {
+    protected String[] doInBackground(Void... voids) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -62,6 +71,12 @@ public class WeatherFetcher extends AsyncTask<Void,Void,Void> {
                 return null;
             }
             forecastJsonStr = buffer.toString();
+            try {
+                return JsonParser.getWeatherDataFromJson(forecastJsonStr);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             Log.e(LOG_TAG,forecastJsonStr);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
@@ -81,6 +96,13 @@ public class WeatherFetcher extends AsyncTask<Void,Void,Void> {
             }
         }
 
+
         return null;
+    }
+
+
+    @Override
+    protected void onPostExecute(String[] result) {
+        mListner.didGetData(result);
     }
 }

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements WeatherFetcherListener {
 
     ArrayAdapter<String> mForecastAdapter;
 
@@ -63,10 +63,18 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.action_refresh) {
-            WeatherFetcher fetcher = new WeatherFetcher();
+            WeatherFetcher fetcher = new WeatherFetcher(this);
             fetcher.execute();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void didGetData(String[] datas) {
+        if(datas != null) {
+            mForecastAdapter.clear();
+            mForecastAdapter.addAll(datas);
+        }
     }
 }

@@ -25,17 +25,13 @@ public class JsonParser {
         final String OWM_MIN = "min";
         final String OWM_DESCRIPTION = "main";
 
-
         JSONObject forecastJSON = new JSONObject(forecast);
         JSONArray weatherArray = forecastJSON.getJSONArray(OWM_LIST);
-
-
 
         Time dayTime = new Time();
         dayTime.setToNow();
         int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
         dayTime = new Time();
-
 
 
         String[] resultStrs = new String[weatherArray.length()];
