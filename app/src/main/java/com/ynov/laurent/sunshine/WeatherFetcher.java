@@ -34,7 +34,7 @@ public class WeatherFetcher extends AsyncTask<String,Void,String[]> {
 
 
     @Override
-    protected String[] doInBackground(String... params) {
+        protected String[] doInBackground(String... params) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;

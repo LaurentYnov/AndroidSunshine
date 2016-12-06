@@ -1,6 +1,7 @@
 package com.ynov.laurent.sunshine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,9 +33,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.action_settings) {
-            Log.e("Main activity","Display the settings");
+            startActivity(new Intent(this,SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

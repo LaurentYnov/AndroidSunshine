@@ -16,7 +16,7 @@ public class JsonParser {
 
     final String LOG_TAG = JsonParser.class.getSimpleName();
 
-    static String[] getWeatherDataFromJson(String forecast) throws JSONException {
+        static String[] getWeatherDataFromJson(String forecast) throws JSONException {
 
         final String OWM_LIST = "list";
         final String OWM_WEATHER = "weather";

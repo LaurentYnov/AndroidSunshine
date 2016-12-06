@@ -1,7 +1,10 @@
 package com.ynov.laurent.sunshine;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -88,12 +91,16 @@ public class ForecastFragment extends Fragment implements WeatherFetcherListener
 
 
     private void downloadDatas () {
-        new WeatherFetcher(this).execute("Bordeaux");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String location = prefs.getString(getString(R.string.pref_location_key),
+                getString(R.string.pref_location_default));
+        new WeatherFetcher(this).execute(location);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        String index = Integer.toString(position + 1);
-        Toast.makeText(getActivity(),"You touched item number " + index, Toast.LENGTH_SHORT).show();
+        String selectedItem = mForecastAdapter.getItem(position);
+        Intent intent = new Intent(getActivity(),DetailActivity.class).putExtra(Intent.EXTRA_TEXT,selectedItem);
+        startActivity(intent);
     }
 }
